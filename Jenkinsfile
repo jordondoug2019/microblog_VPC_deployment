@@ -39,7 +39,7 @@ pipeline {
             steps {
                 sh '''#!/bin/bash
                 ssh -i "workload4KeyPair.pem" ubuntu@ec2-98-81-128-213.compute-1.amazonaws.com
-                source start_app.sh
+                ./setup.sh
                 '''
             }
         }

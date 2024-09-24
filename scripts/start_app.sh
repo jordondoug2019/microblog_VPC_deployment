@@ -13,4 +13,4 @@ pip install gunicorn pymysql cryptography
 FLASK_APP=microblog.py
 flask translate compile
 flask db upgrade
-gunicorn -b :80 -w 4 microblog:app --daemon
+gunicorn -b :5000 -w 4 microblog:app --daemon
