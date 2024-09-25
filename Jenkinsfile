@@ -39,10 +39,10 @@ pipeline {
       stage ('Deploy') {
             steps {
                 sh '''#!/bin/bash
-                scp -i  ~/.ssh/authorized_keys -o StrictHostKeyChecking=no  /var/lib/jenkins/workspace/workload_4_main/scripts/setup.sh ubuntu@10.0.3.30:/home/ubuntu/scripts/setup.sh
+                scp -i  ~/.ssh/workload4KeyPair.pem -o StrictHostKeyChecking=no  /var/lib/jenkins/workspace/workload_4_main/scripts/setup.sh ubuntu@10.0.3.30:/home/ubuntu/scripts/setup.sh
 
-                scp -i  ~/.ssh/authorized_keys  -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/workload_4_main/scripts/start_app.sh ubuntu@10.0.3.30::/home/ubuntu/scripts/start_app.sh
-                ssh -i "~/.ssh/authorized_keys" ubuntu@10.0.3.30 
+                scp -i  ~/.ssh/workload4KeyPair.pem  -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/workload_4_main/scripts/start_app.sh ubuntu@10.0.3.30::/home/ubuntu/scripts/start_app.sh
+                ssh -i "~/.ssh/workload4KeyPair.pem" ubuntu@10.0.3.30 
                 source /home/ubuntu/setup.sh
                 '''
             }
