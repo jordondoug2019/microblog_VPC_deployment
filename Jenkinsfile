@@ -39,8 +39,9 @@ pipeline {
       stage ('Deploy') {
             steps {
                 sh '''#!/bin/bash
-                ssh -i  /var/lib/jenkins/.ssh/workload4KeyPair.pem -o StrictHostKeyChecking=no ubuntu@10.0.3.30 
-                source /home/ubunut/setup.sh
+                scp -i ~/.ssh/workload4KeyPair.pem ~/.ssh/workload4KeyPair.pem ubuntu@172.31.29.7:/var/lib/jenkins/.ssh/
+                ssh -i "~/.ssh/workload4KeyPair.pem" ubuntu@10.0.3.30 
+                source /home/ubuntu/setup.sh
                 '''
             }
         }
