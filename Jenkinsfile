@@ -4,6 +4,8 @@ pipeline {
         stage ('Build') {
             steps {
                 sh '''#!/bin/bash
+                sudo apt update
+                sudo apt install -y python3-pip python3-venv python3-flask
                 python3.9 -m venv venv
                 source venv/bin/activate
                 pip install pip --upgrade
