@@ -1,0 +1,5 @@
+mvenv/
+.python-version
+.pytest_cache
+__pycache__
+scrapJenkins
