@@ -36,16 +36,16 @@ pipeline {
                 dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
             }
         }
-      stage ('Deploy') {
+    stages {
+        stage('Deploy') {
             steps {
-                
                 withCredentials([sshUserPrivateKey(credentialsId: 'jenkins', keyFileVariable: 'SSH_KEY')]) {
-                sh '''#!/bin/bash
-                ssh -i "/var/lib/jenkins/.ssh/workload4KeyPair.pem ubuntu@10.0.3.30 
-                source /home/ubuntu/setup.sh
+                    sh '''#!/bin/bash
+                    ssh -i $SSH_KEY -o StrictHostKeyChecking=no ubuntu@10.0.3.30 '
+                    source /home/ubuntu/setup.sh
+                    '
+                    '''
                 }
-                
-                '''
             }
         }
     }
