@@ -68,7 +68,10 @@ proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
 ## Issues/Troubleshooting
 - **Key Pair Issues:** SSH permission errors were resolved by copying the Application Server key to the Web Server.
-- **Jenkins Deploy Issues:**  
+- **Jenkins Deploy Issues:**
+  <img width="1155" alt="Screenshot 2024-09-27 at 11 05 43 AM" src="https://github.com/user-attachments/assets/8bfe75fb-70e1-4a3b-b68b-a33e3706c983">
+  
+
 
 
 ## Optimization
