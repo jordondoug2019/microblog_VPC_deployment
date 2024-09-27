@@ -41,7 +41,7 @@ This workload focuses on deploying an application within a custom AWS VPC using 
    - Set up Prometheus and Grafana to monitor the Application Server.
 
 ## System Design Diagram
-![System Design Diagram](Diagram.jpg)
+![System Design Diagram](MicroBlog_VPCpeering.png)
 
 ## Issues/Troubleshooting
 - **Key Pair Issues:** SSH permission errors were resolved by copying the Application Server key to the Web Server.
