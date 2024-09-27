@@ -1,7 +1,7 @@
 # Microblog VPC Deployment - Documentation
 
 ## Purpose
-This workload focuses on deploying an application within a custom AWS VPC using EC2 instances for Jenkins, web, and application servers. The goal is to implement a scalable infrastructure, manage server communication securely, and automate deployment pipelines using Jenkins.
+This workload focuses on deploying an application using a custom AWS VPC and the default VPC using EC2 instances for Jenkins, web, and application servers. The workload also focused on various concepts including: VPC Peering, Routing, and MonitoringThe goal is to implement a scalable infrastructure, manage server communication securely, and automate deployment pipelines using Jenkins.
 
 ## Steps Taken
 
