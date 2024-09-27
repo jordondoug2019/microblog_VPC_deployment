@@ -7,24 +7,44 @@ This workload focuses on deploying an application within a custom AWS VPC using 
 
 1. **VPC Setup:**
    - **Why:** Provides network isolation, enhancing security and control.
-   - Created a custom VPC with a public and private subnet, including NAT Gateway.
-  -  In the AWS console, created a custom VPC with one availability zone, a public and a private subnet, a NAT Gateway in 1 AZ and no VPC endpoints.  
+   - Created a custom VPC for the Web Server and Application Server
+      - Created a public subnet for web server 
+      - Created private subnet + NAT Gateway for Application Server
+      - Make Route Tables for Public and Private Subnets
   - Navigate to subnets and edit the settings of the public subet you created to auto assign public IPv4 addresses.
   - In the Default VPC, create an EC2 t3.medium called "Jenkins" and install Jenkins onto it. 
+  - Set up VPC Peering Connection between default vpc and production vpc 
 
 2. **EC2 Instance Setup:**
    - **Why:** Segregates services and roles, improving security and management.
    - Created instances for Jenkins (t3.medium), Web Server (t3.micro), and Application Server (t3.micro).
-   - Create an EC2 t3.micro called "Web_Server" In the PUBLIC SUBNET of the Custom VPC, and create a security group with ports 22 and 80 open.  
-   - Create an EC2 t3.micro called "Application_Server" in the PRIVATE SUBNET of the Custom VPC,  and create a security group with ports 22 and 5000 open. Make sure you create and save the key pair to your local machine.
+   - Attach Jenkins Server to Default VPC 
+   - Attach Web Server and Application Server to Production VPC
+   - Attach "Web_Server" Into the PUBLIC SUBNET of the Production VPC
+         - create a security group with ports 22 and 80 open.  
+   - Attach "Application_Server" to the PRIVATE SUBNET of the Production VPC
+         -  create a security group with ports 22, 5000, 9100
+   - Make sure you create and save the key pair to your local machine.
 
 3. **Key Authentication:**
    - **Why:** Establishes secure communication between servers.
    - Generated an SSH key on Jenkins, sharing it with the Web Server to enable secure access.
+   - SSH into the "Jenkins" server and run `ssh-keygen`. Copy the public key that was created and append it into the "authorized_keys" file in the Web Server
+   - Copy the key pair (.pem file) of the "Application_Server" to the "Web_Server".
+   - Test the connection by SSH'ing into the "Application_Server" from the "Web_Server"
 
 4. **Nginx Configuration:**
    - **Why:** Acts as a reverse proxy to forward traffic from the Web Server to the Application Server.
    - Configured Nginx to forward requests to the private IP of the Application Server.
+   - In the Web Server, install NginX and modify the "sites-enabled/default" file so that the "location" section reads as below:
+```
+location / {
+proxy_pass http://<private_IP>:5000;
+proxy_set_header Host $host;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+}
+```
+- Be sure to replace `<private_IP>` with the private IP address of the application server. Run the command `sudo nginx -t` to verify. Restart NginX 
 
 5. **Script Creation:**
    - **start_app.sh** (Application Server): Sets up the Flask application with dependencies, environment variables, and runs it using Gunicorn.
@@ -38,6 +58,9 @@ This workload focuses on deploying an application within a custom AWS VPC using 
 
 7. **Monitoring Setup:**
    - **Why:** Tracks performance and health of the system.
+   - create an EC2 t3.micro called "Monitoring"
+   - Attach to Default VPC
+   - Create Security Group that opens ports: 22, 9090, 3000, 4000
    - Set up Prometheus and Grafana to monitor the Application Server.
 
 ## System Design Diagram
@@ -45,7 +68,8 @@ This workload focuses on deploying an application within a custom AWS VPC using 
 
 ## Issues/Troubleshooting
 - **Key Pair Issues:** SSH permission errors were resolved by copying the Application Server key to the Web Server.
-- **Nginx Configuration Errors:** Debugged using `nginx -t` and log files to ensure proper proxy setup.
+- **Jenkins Deploy Issues:**  
+
 
 ## Optimization
 - **Separation of Environments:** Allows testing in a non-production environment, mitigating risk. The current setup addresses this by using different servers for Jenkins, the web, and the application.
