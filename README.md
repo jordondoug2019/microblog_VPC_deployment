@@ -62,6 +62,11 @@ proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
    - Attach to Default VPC
    - Create Security Group that opens ports: 22, 9090, 3000, 4000
    - Set up Prometheus and Grafana to monitor the Application Server.
+     <img width="1155" alt="Screenshot 2024-09-27 at 11 51 08 AM" src="https://github.com/user-attachments/assets/f8a783ae-47e2-4ac3-8353-6435675b423a">
+
+     
+<img width="1155" alt="Screenshot 2024-09-27 at 11 51 55 AM" src="https://github.com/user-attachments/assets/c0c27040-bc09-4b5f-9a59-4931a5bd4b01">
+
 
 ## System Design Diagram
 ![System Design Diagram](MicroBlog_VPCpeering.png)
@@ -70,6 +75,8 @@ proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 - **Key Pair Issues:** SSH permission errors were resolved by copying the Application Server key to the Web Server.
 - **Jenkins Deploy Issues:**
   <img width="1155" alt="Screenshot 2024-09-27 at 11 05 43 AM" src="https://github.com/user-attachments/assets/8bfe75fb-70e1-4a3b-b68b-a33e3706c983">
+
+  Running into issues with the deploy stage of the Jenkins build. The issue was with permissions and owner ship of the /var/lib/jenkins/.ssh/workload4KeyPair.pem file. To troubleshoot, I had to update the owner and permissions of the the file path to jenkins. Then changed the permissions to 600. There was also a syntacical error with my Jenkins Build Deploy Stage, I was missing the closing qoutation around my path to ssh into the Web Server
   
 
 
